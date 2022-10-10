@@ -1,23 +1,39 @@
 package agh.ics.oop;
 
+import static agh.ics.oop.Direction.*;
+
 public class World {
-    private static void run(String[] args) {
-        System.out.println("Zwierzak idzie do przodu...");
-        boolean firstArg = true;
-        for (String arg : args) {
-            if(!firstArg) {
-                System.out.print(", ");
-            } else {
-                firstArg = false;
+    private static void run(Direction[] directions) {
+        for (Direction direction : directions) {
+            switch (direction) {
+                case FORWARD -> System.out.println("Zwierzak idzie do przodu");
+                case BACKWARD -> System.out.println("Zwierzak idzie do tyłu");
+                case LEFT -> System.out.println("Zwierzak skręca w prawo");
+                case RIGHT -> System.out.println("Zwierzak skręca w lewo");
+                default -> System.out.println("Wprowadzono błędną wartość");
             }
-            System.out.print(arg);
         }
-        System.out.println("");
+    }
+
+    private static Direction[] getDirections(String[] args) {
+        Direction[] directions = new Direction[args.length];
+        for(int i = 0; i < args.length; i++) {
+            directions[i] = switch(args[i]) {
+                case "f" -> FORWARD;
+                case "b" -> BACKWARD;
+                case "l" -> LEFT;
+                case "r" -> RIGHT;
+                default -> UNEXPECTED;
+            };
+        }
+
+        return directions;
     }
 
     public static void main(String[] args) {
-        System.out.println("System wystartował...");
-        run(args);
-        System.out.println("System zakończył działanie...");
+        System.out.println("Start");
+        Direction[] directions = getDirections(args);
+        run(directions);
+        System.out.println("Stop");
     }
 }
