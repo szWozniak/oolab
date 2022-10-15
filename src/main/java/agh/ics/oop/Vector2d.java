@@ -6,13 +6,11 @@ public record Vector2d(int x, int y) {
     }
 
     public boolean precedes(Vector2d other) {
-        if (this.x <= other.x && this.y <= other.y) return true;
-        return false;
+        return this.x <= other.x && this.y <= other.y;
     }
 
     public boolean follows(Vector2d other) {
-        if (this.x >= other.x && this.y >= other.y) return true;
-        return false;
+        return this.x >= other.x && this.y >= other.y;
     }
 
     public Vector2d upperRight(Vector2d other) {
@@ -32,15 +30,13 @@ public record Vector2d(int x, int y) {
     }
 
     public boolean equals(Object other) {
-        Vector2d otherVector = (Vector2d) other;
-        if (otherVector.x == this.x && otherVector.y == this.y) return true;
-        return false;
+        if(this == other) return true;
+        if(!(other instanceof Vector2d otherVector)) return false;
+
+        return otherVector.x == this.x && otherVector.y == this.y;
     }
 
     public Vector2d opposite() {
         return new Vector2d(-1 * this.x, -1 * this.y);
     }
-
-
-
 }
