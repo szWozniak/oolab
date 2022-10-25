@@ -1,5 +1,7 @@
 package agh.ics.oop;
 
+import javax.swing.text.html.Option;
+
 import static agh.ics.oop.Direction.*;
 
 public class World {
@@ -32,15 +34,15 @@ public class World {
     }
 
     public static void main(String[] args) {
-        System.out.println("Start");
-        Direction[] directions = getDirections(args);
-        run(directions);
-        System.out.println("Stop");
-
-        Vector2d position1 = new Vector2d(1,2);
-        System.out.println(position1);
-        Vector2d position2 = new Vector2d(-2,1);
-        System.out.println(position2);
-        System.out.println(position1.add(position2));
+        Animal animal = new Animal();
+        MoveDirection[] directions = OptionsParser.parse(args);
+        for(MoveDirection move : directions) {
+            animal.move(move);
+        }
+        animal.move(MoveDirection.RIGHT);
+        animal.move(MoveDirection.FORWARD);
+        animal.move(MoveDirection.FORWARD);
+        animal.move(MoveDirection.FORWARD);
+        System.out.println(animal.toString());
     }
 }
