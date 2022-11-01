@@ -10,9 +10,10 @@ class AnimalTest {
     @Test
     void TestOrientation() {
         //given:
-        Animal animal = new Animal();
-        Animal animal2 = new Animal();
-        Animal animal3 = new Animal();
+        IWorldMap map = new RectangularMap(4, 4);
+        Animal animal = new Animal(map);
+        Animal animal2 = new Animal(map);
+        Animal animal3 = new Animal(map);
 
         //when:
         animal.move(RIGHT);
@@ -30,8 +31,9 @@ class AnimalTest {
     @Test
     void TestPositionAndMap() {
         //given:
-        Animal animal = new Animal();
-        Animal animal2 = new Animal();
+        IWorldMap map = new RectangularMap(4, 4);
+        Animal animal = new Animal(map);
+        Animal animal2 = new Animal(map);
 
         //when:
         animal.move(RIGHT);

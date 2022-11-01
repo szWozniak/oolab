@@ -11,7 +11,8 @@ class OptionsParserTest {
         String[] strings = {"f", "backward", "none", "right", "f", "l", "forward"};
 
         //when:
-        Animal animal = new Animal();
+        IWorldMap map = new RectangularMap(4, 4);
+        Animal animal = new Animal(map);
         for(MoveDirection move : OptionsParser.parse(strings)) {
             animal.move(move);
         }

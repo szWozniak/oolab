@@ -5,14 +5,27 @@ import static agh.ics.oop.MapDirection.NORTH;
 public class Animal {
     private MapDirection orientation;
     private Vector2d location;
+    private IWorldMap map;
 
-    public Animal() {
+    public Animal(IWorldMap map) {
         this.orientation = NORTH;
         this.location = new Vector2d(2, 2);
+        this.map = map;
+    }
+
+    public Animal(IWorldMap map, Vector2d initialPosition) {
+        this.orientation = NORTH;
+        this.map = map;
+        this.location = initialPosition;
     }
 
     public String toString() {
-        return this.location.toString() + " " + orientation.toString();
+        return switch(this.orientation) {
+            case NORTH -> "^";
+            case SOUTH -> "v";
+            case EAST -> ">";
+            case WEST -> "<";
+        };
     }
 
     public MapDirection getOrientation() {
@@ -27,7 +40,7 @@ public class Animal {
         return position.equals(this.location);
     }
 
-    public void moveMap(MapDirection orientation, boolean opposite) {
+    private void moveMap(MapDirection orientation, boolean opposite) {
         Vector2d moveVector = switch (orientation) {
             case NORTH -> new Vector2d(0, 1);
             case SOUTH -> new Vector2d(0, -1);
@@ -38,8 +51,9 @@ public class Animal {
             moveVector = moveVector.opposite();
         }
 
-        if(this.location.add(moveVector).precedes(new Vector2d(4, 4)) && this.location.add(moveVector).follows(new Vector2d(0, 0))) {
-            this.location = this.location.add(moveVector);
+        Vector2d moveTo = this.location.add(moveVector);
+        if(this.map.canMoveTo(moveTo)) {
+            this.location = moveTo;
         }
     }
 
