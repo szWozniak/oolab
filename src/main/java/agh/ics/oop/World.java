@@ -1,5 +1,6 @@
 package agh.ics.oop;
 
+import javax.swing.*;
 import javax.swing.text.html.Option;
 
 import static agh.ics.oop.Direction.*;
