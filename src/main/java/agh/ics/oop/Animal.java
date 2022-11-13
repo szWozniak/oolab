@@ -2,7 +2,7 @@ package agh.ics.oop;
 
 import static agh.ics.oop.MapDirection.NORTH;
 
-public class Animal {
+public class Animal implements IMapElement {
     private MapDirection orientation;
     private Vector2d location;
     private IWorldMap map;
@@ -53,6 +53,7 @@ public class Animal {
 
         Vector2d moveTo = this.location.add(moveVector);
         if(this.map.canMoveTo(moveTo)) {
+            this.map.wasMoved(moveTo);
             this.location = moveTo;
         }
     }
