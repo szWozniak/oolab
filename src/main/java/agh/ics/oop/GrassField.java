@@ -1,8 +1,7 @@
 package agh.ics.oop;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class GrassField extends AbstractWorldMap {
     private int grassCount;
@@ -14,7 +13,8 @@ public class GrassField extends AbstractWorldMap {
 
     private void randomGrassTiles(int grassCount) {
         for(int i = 0; i < grassCount; i++) {
-            this.elements.add(new Grass(randomEmptyGrass()));
+            Vector2d randomed = randomEmptyGrass();
+            this.elements.put(randomed, new Grass(randomed));
         }
     }
 
@@ -31,30 +31,29 @@ public class GrassField extends AbstractWorldMap {
     }
 
     protected Vector2d getLeftBottom() {
-        int left = 0;
-        int bottom = 0;
-        for(IMapElement element : this.elements) {
-            left = Math.min(left, element.getLocation().x());
-            bottom = Math.min(bottom, element.getLocation().y());
-        }
-        return new Vector2d(left-1, bottom-1);
+        AtomicInteger left = new AtomicInteger();
+        AtomicInteger bottom = new AtomicInteger();
+        this.elements.forEach((key, value) -> {
+            left.set(Math.min(left.get(), key.x()));
+            bottom.set(Math.min(bottom.get(), key.y()));
+        });
+        return new Vector2d(left.get() - 1, bottom.get() - 1);
     }
 
     protected Vector2d getTopRight() {
-        int right = 0;
-        int top = 0;
-        for(IMapElement element : this.elements) {
-            right = Math.max(right, element.getLocation().x());
-            top = Math.max(top, element.getLocation().y());
-        }
-        return new Vector2d(right+1, top+1);
+        AtomicInteger right = new AtomicInteger();
+        AtomicInteger top = new AtomicInteger();
+        this.elements.forEach((key, value) -> {
+            right.set(Math.max(right.get(), key.x()));
+            top.set(Math.max(top.get(), key.y()));
+        });
+        return new Vector2d(right.get() + 1, top.get() + 1);
     }
 
     @Override
     public void wasMoved(Vector2d vector2d) {
         if(objectAt(vector2d) instanceof Grass) {
             this.randomGrassTiles(1);
-            this.elements.remove((IMapElement) objectAt(vector2d));
         }
     }
 }

@@ -21,7 +21,8 @@ public class OptionsParser {
                 case "l", "left" -> LEFT;
                 default -> null;
             };
-            if (move != null) {
+            if(move == null)  throw new IllegalArgumentException("Argument " + option + " is not legal move specification");
+            else {
                 directions[j] = move;
                 j += 1;
             }
