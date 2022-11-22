@@ -1,5 +1,7 @@
 package agh.ics.oop;
 
+import java.util.Objects;
+
 public record Vector2d(int x, int y) {
     public String toString() {
         return "(" + this.x + "," + this.y + ")";
@@ -33,10 +35,15 @@ public record Vector2d(int x, int y) {
         if(this == other) return true;
         if(!(other instanceof Vector2d otherVector)) return false;
 
-        return otherVector.x == this.x && otherVector.y == this.y;
+        return otherVector.hashCode() == this.hashCode();
     }
 
     public Vector2d opposite() {
         return new Vector2d(-1 * this.x, -1 * this.y);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(x, y);
     }
 }

@@ -1,11 +1,15 @@
 package agh.ics.oop;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static agh.ics.oop.MapDirection.NORTH;
 
 public class Animal implements IMapElement {
     private MapDirection orientation;
     private Vector2d location;
     private IWorldMap map;
+    private List<IPositionChangeObserver> observerList = new ArrayList<IPositionChangeObserver>();
 
     public Animal(IWorldMap map) {
         this.orientation = NORTH;
@@ -53,6 +57,7 @@ public class Animal implements IMapElement {
 
         Vector2d moveTo = this.location.add(moveVector);
         if(this.map.canMoveTo(moveTo)) {
+            this.positionChanged(this.location, moveTo);
             this.map.wasMoved(moveTo);
             this.location = moveTo;
         }
@@ -67,5 +72,19 @@ public class Animal implements IMapElement {
             case BACKWARD -> this.moveMap(this.orientation, true);
         }
 
+    }
+
+    public void addObserver(IPositionChangeObserver observer) {
+        this.observerList.add(observer);
+    }
+
+    public void removeObserver(IPositionChangeObserver observer) {
+        this.observerList.remove(observer);
+    }
+
+    public void positionChanged(Vector2d oldPosition, Vector2d newPosition) {
+        for(IPositionChangeObserver observer : this.observerList) {
+            observer.positionChanged(oldPosition, newPosition);
+        }
     }
 }
