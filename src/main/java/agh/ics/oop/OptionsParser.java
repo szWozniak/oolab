@@ -1,10 +1,12 @@
 package agh.ics.oop;
 
+import java.util.List;
+
 import static agh.ics.oop.MoveDirection.*;
 
 public class OptionsParser {
-    public static MoveDirection[] parse(String[] options) {
-        int max = options.length;
+    public static MoveDirection[] parse(List<String> options) {
+        int max = options.size();
         for (String option : options) {
             if (option == null) {
                 max -= 1;

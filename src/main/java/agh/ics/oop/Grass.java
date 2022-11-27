@@ -1,10 +1,16 @@
 package agh.ics.oop;
 
-public class Grass implements IMapElement {
-    private Vector2d location;
+import java.util.ArrayList;
+import java.util.List;
 
-    public Grass(Vector2d vector2d) {
+public class Grass extends AbstractMapElement {
+    private Vector2d location;
+    private IWorldMap map;
+    private List<IPositionChangeObserver> observerList = new ArrayList<IPositionChangeObserver>();
+
+    public Grass(IWorldMap map, Vector2d vector2d) {
         this.location = vector2d;
+        this.map = map;
     }
 
     public Vector2d getLocation() {

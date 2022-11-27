@@ -43,4 +43,5 @@ public interface IWorldMap {
 
     boolean isOccupiedWithAnimal(Vector2d position);
     void wasMoved(Vector2d vector2d);
+    MapBoundary getBoundary();
 }
