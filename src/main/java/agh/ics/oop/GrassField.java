@@ -14,7 +14,11 @@ public class GrassField extends AbstractWorldMap {
     private void randomGrassTiles(int grassCount) {
         for(int i = 0; i < grassCount; i++) {
             Vector2d randomed = randomEmptyGrass();
-            this.elements.put(randomed, new Grass(randomed));
+            Grass newGrass = new Grass(this, randomed);
+            newGrass.addObserver((IPositionChangeObserver) this);
+            newGrass.addObserver((IPositionChangeObserver) this.getBoundary());
+            newGrass.placed();
+            this.elements.put(randomed, newGrass);
         }
     }
 
@@ -30,29 +34,10 @@ public class GrassField extends AbstractWorldMap {
         return randomed;
     }
 
-    protected Vector2d getLeftBottom() {
-        AtomicInteger left = new AtomicInteger();
-        AtomicInteger bottom = new AtomicInteger();
-        this.elements.forEach((key, value) -> {
-            left.set(Math.min(left.get(), key.x()));
-            bottom.set(Math.min(bottom.get(), key.y()));
-        });
-        return new Vector2d(left.get() - 1, bottom.get() - 1);
-    }
-
-    protected Vector2d getTopRight() {
-        AtomicInteger right = new AtomicInteger();
-        AtomicInteger top = new AtomicInteger();
-        this.elements.forEach((key, value) -> {
-            right.set(Math.max(right.get(), key.x()));
-            top.set(Math.max(top.get(), key.y()));
-        });
-        return new Vector2d(right.get() + 1, top.get() + 1);
-    }
-
     @Override
     public void wasMoved(Vector2d vector2d) {
         if(objectAt(vector2d) instanceof Grass) {
+            ((Grass)objectAt(vector2d)).removed();
             this.randomGrassTiles(1);
         }
     }

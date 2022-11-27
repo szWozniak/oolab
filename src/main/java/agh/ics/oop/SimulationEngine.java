@@ -21,6 +21,7 @@ public class SimulationEngine implements IEngine {
             if(!this.map.isOccupiedWithAnimal(vector)) {
                 Animal animal = new Animal(this.map, vector);
                 animal.addObserver((IPositionChangeObserver) map);
+                animal.addObserver((IPositionChangeObserver) map.getBoundary());
                 this.map.place(animal);
                 this.animals.add(animal);
             }
